@@ -10,6 +10,10 @@ import { Dropdowndirective } from "./shared/dropdown.directive";
 import { ChartsComponent } from './charts/charts.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { UploadComponent } from './upload/upload.component';
+import { MatTableModule } from '@angular/material/table';
+import { PortfolioComponent } from './portfolio/portfolio.component';
+import { MaterialModule } from './material/material.module';
+import { HttpClientModule } from '@angular/common/http';
 
 
 @NgModule({
@@ -19,15 +23,16 @@ import { UploadComponent } from './upload/upload.component';
     ChartsComponent,
     DashboardComponent,
     UploadComponent,
-      ],
+    PortfolioComponent
+  ],
   imports: [BrowserModule,
-     ChartsModule,
-     FormsModule, 
-     NgApexchartsModule, 
-     BrowserAnimationsModule,
-     
-    ],
+    ChartsModule,
+    FormsModule,
+    NgApexchartsModule,
+    BrowserAnimationsModule,
+    MatTableModule, MaterialModule, HttpClientModule
+  ],
   providers: [],
   bootstrap: [AppComponent]
 })
-export class AppModule {}
+export class AppModule { }
