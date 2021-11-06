@@ -10,7 +10,7 @@ import { Dropdowndirective } from "./shared/dropdown.directive";
 import { ChartsComponent } from './charts/charts.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { UploadComponent } from './upload/upload.component';
-import { MatTableModule } from '@angular/material/table';
+import { MatSortModule } from '@angular/material/sort';
 import { PortfolioComponent } from './portfolio/portfolio.component';
 import { MaterialModule } from './material/material.module';
 import { HttpClientModule } from '@angular/common/http';
@@ -25,12 +25,15 @@ import { HttpClientModule } from '@angular/common/http';
     UploadComponent,
     PortfolioComponent
   ],
-  imports: [BrowserModule,
+  imports: [
+    BrowserModule,
     ChartsModule,
     FormsModule,
     NgApexchartsModule,
     BrowserAnimationsModule,
-    MatTableModule, MaterialModule, HttpClientModule
+    MatSortModule, 
+    MaterialModule, 
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]

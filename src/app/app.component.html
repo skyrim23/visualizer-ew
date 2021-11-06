@@ -11,9 +11,8 @@
     <span>Bubble Chart</span>
   </button> -->
     <app-charts *ngIf="loadedFeature === 'charts'"></app-charts>
-    <app-dashboard *ngIf="loadedFeature === 'dashboard'"></app-dashboard>
     <app-upload *ngIf="loadedFeature === 'upload'"></app-upload>
   </div>
 </div>
-<app-portfolio *ngIf="loadedFeature === 'dashboard'"></app-portfolio>
+<app-dashboard [hidden]="(!(loadedFeature === 'dashboard') && holdings)" [holdings]="holdings"></app-dashboard>
 

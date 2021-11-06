@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnInit, ViewChild, Injectable } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild, Injectable, Input, OnChanges } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
@@ -27,7 +27,8 @@ const NAMES: string[] = [
   templateUrl: './portfolio.component.html',
   styleUrls: ['./portfolio.component.css']
 })
-export class PortfolioComponent implements AfterViewInit, OnInit {
+export class PortfolioComponent implements AfterViewInit, OnInit, OnChanges {
+  @Input() holdings:any;
   displayedColumns: string[] = ['_id', 'symbol', 'averagePrice', 'totalQuantity'];
   dataSource: MatTableDataSource<UserData>;
 
@@ -35,27 +36,37 @@ export class PortfolioComponent implements AfterViewInit, OnInit {
   @ViewChild(MatSort) sort: MatSort;
 
   constructor(private http: HttpClient) {
-    console.log('constructor');
+    console.log('constructor of portfolio component');
     // Create 100 users
     const users = Array.from({ length: 100 }, (_, k) => createNewUser(k + 1));
-    this.dataSource = new MatTableDataSource(users);
-    console.log(`~ this.dataSource at firsst in constructor: `, this.dataSource);
+    console.log(`~ this.holdings in constructor of portfolio component`, this.holdings);
+    this.dataSource = new MatTableDataSource(this.holdings);
+    console.log(`~ this.dataSource at first in constructor: `, this.dataSource);
   }
 
   ngOnInit() {
-    console.log('ngOnInit');
-    this.http.get<any>('http://localhost:3000/portfolio/myUserId').subscribe(data => {
-      console.log(`got this data from backend: `, data);
-      this.dataSource = new MatTableDataSource(data.holdings);
-      console.log(`~ this.dataSource in ngOnInit`, this.dataSource);
-
-    })
+    console.log('inside ngOnInit of portfolio component');
+    console.log(`thi.holdings in ngOnInit of portfolioCompoennt: `, this.holdings);
+    // this.http.get<any>('http://localhost:3000/portfolio/myUserId').subscribe(data => {
+    //   console.log(`got this data from backend: `, data);
+    //   this.dataSource = new MatTableDataSource(data.holdings);
+    //   console.log(`~ this.dataSource in ngOnInit`, this.dataSource);
+    // })
   }
 
   ngAfterViewInit() {
-    console.log('ngAfterViewInit');
+    console.log('inside ngAfterViewInit of portfolio component');
+    console.log(`thi.holdings in ngAfterViewInit of portfolio component: `, this.holdings);
+    
+  }
+
+  ngOnChanges() {
+    console.log('inside ngOnChanges of portfolio component');
+    console.log(`thi.holdings in ngOnChanges of portfolio component: `, this.holdings);
+    this.dataSource = new MatTableDataSource(this.holdings);
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
+    console.log(`~ this.dataSource in ngOnChanges`, this.dataSource);
   }
 
   applyFilter(event: Event) {
