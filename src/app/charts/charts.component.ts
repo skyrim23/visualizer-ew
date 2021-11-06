@@ -1,7 +1,4 @@
-
-// import { ChartType, ChartOptions } from 'chart.js';
-import { monkeyPatchChartJsLegend, monkeyPatchChartJsTooltip } from 'ng2-charts';
-import { Component, ViewChild } from "@angular/core";
+import { Component, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
 import { ChartComponent } from "ng-apexcharts";
 import {
   ApexNonAxisChartSeries,
@@ -11,6 +8,7 @@ import {
   ApexDataLabels,
   ApexLegend
 } from "ng-apexcharts";
+
 
 export type ChartOptions = {
   series: ApexNonAxisChartSeries;
@@ -23,13 +21,15 @@ export type ChartOptions = {
 };
 
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  selector: 'app-charts',
+  templateUrl: './charts.component.html',
+  styleUrls: ['./charts.component.css']
 })
-export class AppComponent {
-  active = 1;
-  title = 'visualizer-shub';
+
+
+
+export class ChartsComponent implements OnInit {
+
   @ViewChild("chart") chart: ChartComponent;
   public chartOptions: Partial<ChartOptions> | any;
   ngOnInit() {
@@ -37,15 +37,8 @@ export class AppComponent {
 
   pieChart(){}
   bubbleChart(){}
-
-  loadedFeature = "dashboard"
-  onNavigate(feature: string){
-    this.loadedFeature = feature;
-  }
-
+  
   constructor() {
-
-    
 
     this.chartOptions = {
       series: [44, 55, 41, 17, 15],
@@ -77,13 +70,5 @@ export class AppComponent {
           }
         }
       ]
-    };
-  }
-
-
-  
-
-}
-// ---------------------------------------
-
-
+    }
+}}
