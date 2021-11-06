@@ -1,4 +1,4 @@
-<div class="fullDiv" [hidden]="!holdings">
+<div class="fullDiv" *ngIf="holdings">
   <div class="filterInput">
     <mat-form-field appearance="standard">
       <mat-label>Filter</mat-label>

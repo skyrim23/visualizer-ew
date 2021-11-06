@@ -14,5 +14,5 @@
     <app-upload *ngIf="loadedFeature === 'upload'"></app-upload>
   </div>
 </div>
-<app-dashboard [hidden]="(!(loadedFeature === 'dashboard') && holdings)" [holdings]="holdings"></app-dashboard>
+<app-dashboard *ngIf="(loadedFeature === 'dashboard') && holdings" [holdings]="holdings"></app-dashboard>
 
