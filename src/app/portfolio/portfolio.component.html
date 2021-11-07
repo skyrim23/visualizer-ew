@@ -13,38 +13,98 @@
   <div class="matTable">
     <div class="mat-elevation-z8">
       <table mat-table [dataSource]="dataSource" matSort>
-        
-        <!-- ID Column -->
-        <ng-container matColumnDef="_id">
+        <!-- Index Column -->
+        <ng-container matColumnDef="index">
           <th mat-header-cell *matHeaderCellDef mat-sort-header>Index</th>
-          <td mat-cell *matCellDef="let element; let i = index;">{{i}}</td>
+          <td mat-cell *matCellDef="let element; let i = index">{{ i }}</td>
         </ng-container>
 
-        <!-- Progress Column -->
+        <!-- Symbol Column -->
         <ng-container matColumnDef="symbol">
           <th mat-header-cell *matHeaderCellDef mat-sort-header>Symbol</th>
           <td mat-cell *matCellDef="let row">{{ row.symbol }}</td>
         </ng-container>
 
-        <!-- Name Column -->
-        <ng-container matColumnDef="averagePrice">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>Average Price</th>
-          <td mat-cell *matCellDef="let row">{{ row.averagePrice }}</td>
-        </ng-container>
-
-        <!-- Fruit Column -->
+        <!-- Quantity Column -->
         <ng-container matColumnDef="totalQuantity">
           <th mat-header-cell *matHeaderCellDef mat-sort-header>Quantity</th>
           <td mat-cell *matCellDef="let row">{{ row.totalQuantity }}</td>
         </ng-container>
 
-        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <!-- Avergae Price Column -->
+        <ng-container matColumnDef="averagePrice">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>
+            Average Price
+          </th>
+          <td mat-cell *matCellDef="let row">{{ row.averagePrice }}</td>
+        </ng-container>
+
+        <!-- LTP Price Column -->
+        <ng-container matColumnDef="lastTradedPrice">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>LTP</th>
+          <td mat-cell *matCellDef="let row">{{ row.lastTradedPrice }}</td>
+        </ng-container>
+
+        <!-- Invested amount Column -->
+        <ng-container matColumnDef="investedAmount">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>
+            Invested amt
+          </th>
+          <td mat-cell *matCellDef="let row">{{ row.investedAmount }}</td>
+        </ng-container>
+
+        <!-- currentValue amount Column -->
+        <ng-container matColumnDef="currentValue">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>
+            Current value
+          </th>
+          <td
+            mat-cell
+            *matCellDef="let row"
+            [ngStyle]="{
+              color: row.currentValue > row.investedAmount ? 'green' : 'red'
+            }"
+          >
+            {{ row.currentValue }}
+          </td>
+        </ng-container>
+
+        <!-- profitLoss amount Column -->
+        <ng-container matColumnDef="profitLoss">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>P/L</th>
+          <td
+            mat-cell
+            *matCellDef="let row"
+            [ngStyle]="{ color: row.profitLoss > 0 ? 'green' : 'red' }"
+          >
+            {{ row.profitLoss }}
+          </td>
+        </ng-container>
+
+        <!-- profitLossPercentage amount Column -->
+        <ng-container matColumnDef="profitLossPercentage">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>P/L %</th>
+          <td
+            mat-cell
+            *matCellDef="let row"
+            [ngStyle]="{
+              color: row.profitLossPercentage > 0 ? 'green' : 'red'
+            }"
+          >
+            {{ row.profitLossPercentage }}%
+          </td>
+        </ng-container>
+
+        <tr
+          mat-header-row
+          *matHeaderRowDef="displayedColumns; sticky: true"
+        ></tr>
         <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
 
         <!-- Row shown when there is no matching data. -->
         <tr class="mat-row" *matNoDataRow>
           <td class="mat-cell" colspan="4">
-            No data matching the filter "{{ input.value }}"
+            No data matching the filter: '{{ input.value }}'
           </td>
         </tr>
       </table>
