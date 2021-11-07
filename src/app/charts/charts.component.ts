@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, ViewChild } from '@angular/core';
 import { ChartComponent } from "ng-apexcharts";
 import {
   ApexNonAxisChartSeries,
@@ -28,34 +28,68 @@ export type ChartOptions = {
 
 
 
-export class ChartsComponent implements OnInit {
-
+export class ChartsComponent implements OnInit, OnChanges {
+  @Input() holdings: any;
   @ViewChild("chart") chart: ChartComponent;
   public chartOptions: Partial<ChartOptions> | any;
+  totalInvested: number = 0;
+  totalCurrentValue: number = 0;
+  smallCapsCurrentValue: number = 0;
+  midCapsCurrentValue: number = 0;
+  largeCapsCurrentValue: number = 0;
+  smallCaps: any = [];
+  midCaps: any = [];
+  largeCaps: any = [];
   ngOnInit() {
   }
 
-  pieChart(){}
-  bubbleChart(){}
-  
-  constructor() {
+  ngOnChanges() {
+    console.log('inside ngOnChanges of chartComponent', this.holdings);
+    this.holdings.forEach((element: any) => {
+      if (element.marketCap < 5000) {
+        this.smallCaps.push(element);
+        this.smallCapsCurrentValue += parseFloat(element.currentValue);
+      }
+      else if (element.marketCap < 20000) {
+        this.midCaps.push(element);
+        this.midCapsCurrentValue += parseFloat(element.currentValue);
+      }
+      else {
+        this.largeCaps.push(element);
+        this.largeCapsCurrentValue += parseFloat(element.currentValue);
+      }
+      this.totalCurrentValue += element.currentValue;
+    });
 
     this.chartOptions = {
-      series: [44, 55, 41, 17, 15],
+      series: [this.smallCapsCurrentValue, this.midCapsCurrentValue, this.largeCapsCurrentValue],
       chart: {
         width: 380,
         type: "donut"
       },
       dataLabels: {
-        enabled: false
+        enabled: true,
+        style: {
+          colors: ["black"]
+        },
+        dropShadow: {
+          enabled: false,
+          top: 1,
+          left: 1,
+          blur: 1,
+          color: '#000',
+          opacity: 0.45
+        }
       },
       fill: {
         type: "gradient"
       },
+      labels: ["Small Cap", "Mid Cap", "Large Cap"],
       legend: {
-        formatter: function(val: any, opts: any) {
-          return val + " - " + opts.w.globals.series[opts.seriesIndex];
-        }
+        show: true,
+        position: "bottom",
+        horizontalAlign: "center",
+        floating: false,
       },
       responsive: [
         {
@@ -71,4 +105,10 @@ export class ChartsComponent implements OnInit {
         }
       ]
     }
-}}
+  }
+  pieChart() { }
+  bubbleChart() { }
+
+  constructor() {
+  }
+}

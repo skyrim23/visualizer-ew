@@ -10,7 +10,7 @@
    <button class="anchor card" (click)="bubbleChart">
     <span>Bubble Chart</span>
   </button> -->
-    <app-charts *ngIf="loadedFeature === 'charts'"></app-charts>
+    <app-charts *ngIf="loadedFeature === 'charts' && holdings" [holdings]="holdings"></app-charts>
     <app-upload *ngIf="loadedFeature === 'upload'"></app-upload>
   </div>
 </div>
