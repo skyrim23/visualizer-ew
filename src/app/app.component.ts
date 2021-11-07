@@ -1,7 +1,5 @@
-
-// import { ChartType, ChartOptions } from 'chart.js';
-import { monkeyPatchChartJsLegend, monkeyPatchChartJsTooltip } from 'ng2-charts';
-import { Component, ViewChild } from "@angular/core";
+import { HttpClient } from "@angular/common/http";
+import { Component, OnInit, ViewChild } from "@angular/core";
 import { ChartComponent } from "ng-apexcharts";
 import {
   ApexNonAxisChartSeries,
@@ -27,26 +25,22 @@ export type ChartOptions = {
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   active = 1;
   title = 'visualizer-shub';
+  public holdings = [];
   @ViewChild("chart") chart: ChartComponent;
   public chartOptions: Partial<ChartOptions> | any;
-  ngOnInit() {
-  }
 
-  pieChart(){}
-  bubbleChart(){}
+  pieChart() { }
+  bubbleChart() { }
 
   loadedFeature = "dashboard"
-  onNavigate(feature: string){
+  onNavigate(feature: string) {
     this.loadedFeature = feature;
   }
 
-  constructor() {
-
-    
-
+  constructor(public http: HttpClient) {
     this.chartOptions = {
       series: [44, 55, 41, 17, 15],
       chart: {
@@ -60,7 +54,7 @@ export class AppComponent {
         type: "gradient"
       },
       legend: {
-        formatter: function(val: any, opts: any) {
+        formatter: function (val: any, opts: any) {
           return val + " - " + opts.w.globals.series[opts.seriesIndex];
         }
       },
@@ -80,10 +74,9 @@ export class AppComponent {
     };
   }
 
-
-  
-
+  ngOnInit() {
+    this.http.get<any>('http://localhost:3000/portfolio/myUserId').subscribe(data => {
+      this.holdings = data.holdings;
+    });
+  }
 }
-// ---------------------------------------
-
-
