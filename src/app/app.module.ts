@@ -4,14 +4,14 @@ import { AppComponent } from "./app.component";
 import { FormsModule } from '@angular/forms';
 import { NgApexchartsModule } from "ng-apexcharts";
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { headerComponent } from './header/header.component';
+import { headerComponent } from './components/header/header.component';
 import { Dropdowndirective } from "./shared/dropdown.directive";
-import { ChartsComponent } from './charts/charts.component';
-import { DashboardComponent } from './dashboard/dashboard.component';
+import { ChartsComponent } from './components/charts/charts.component';
+import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { UploadComponent } from './upload/upload.component';
 import { MatSortModule } from '@angular/material/sort';
-import { PortfolioComponent } from './portfolio/portfolio.component';
-import { MaterialModule } from './material/material.module';
+import { PortfolioComponent } from './components/portfolio/portfolio.component';
+import { MaterialModule } from './shared/material/material.module';
 import { HttpClientModule } from '@angular/common/http';
 
 

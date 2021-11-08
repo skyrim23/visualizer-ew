@@ -35,38 +35,20 @@ export class PortfolioComponent implements AfterViewInit, OnInit, OnChanges {
   @ViewChild(MatSort) sort: MatSort;
 
   constructor(private http: HttpClient) {
-    console.log('constructor of portfolio component');
-    // console.log(`~ this.holdings in constructor of portfolio component`, this.holdings);
-    this.dataSource = new MatTableDataSource(this.holdings);
-    // console.log(`~ this.dataSource at first in constructor: `, this.dataSource);
   }
 
   ngOnInit() {
-    console.log('inside ngOnInit of portfolio component');
-    // console.log(`this.holdings in ngOnInit of portfolioCompoennt: `, this.holdings);
   }
-
+  
   ngAfterViewInit() {
-    console.log('inside ngAfterViewInit of portfolio component');
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
-    // console.log(`thi.holdings in ngAfterViewInit of portfolio component: `, this.holdings);
-    
   }
 
   ngOnChanges() {
-    console.log('inside ngOnChanges of portfolio component');
-    // console.log(`thi.holdings in ngOnChanges of portfolio component: `, this.holdings);
-    this.holdings.forEach((element:any) => {
-      element.investedAmount = (element.totalQuantity * element.averagePrice).toFixed(2);
-      element.currentValue = (element.totalQuantity * element.lastTradedPrice).toFixed(2);
-      element.profitLoss = (element.currentValue - element.investedAmount).toFixed(2);
-      element.profitLossPercentage = ((element.currentValue - element.investedAmount) / element.investedAmount * 100).toFixed(2);
-    });
     this.dataSource = new MatTableDataSource(this.holdings);
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
-    // console.log(`~ this.dataSource in ngOnChanges`, this.dataSource);
   }
 
   applyFilter(event: Event) {
