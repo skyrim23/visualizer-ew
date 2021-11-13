@@ -68,7 +68,7 @@ export class ChartsComponent implements OnInit, OnChanges {
     categoryNames.forEach(categoryName => {
       for (let i = 0; i < this.holdings.length; i++) {
         loopcounter += 1;
-        if (this.categories[categoryName].hasOwnProperty(this.holdings[i].marketCapSection)) {
+        if (this.categories[categoryName].hasOwnProperty(this.holdings[i][categoryName])) {
           this.categories[categoryName][this.holdings[i][categoryName]].currentValue += this.holdings[i].currentValue;
           this.categories[categoryName][this.holdings[i][categoryName]].companyNames.push(this.holdings[i].symbol);
         } else {

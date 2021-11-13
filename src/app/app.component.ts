@@ -31,7 +31,7 @@ export class AppComponent implements OnInit {
         element.investedAmount = +(element.totalQuantity * element.averagePrice).toFixed(2);
         element.currentValue = +(element.totalQuantity * element.lastTradedPrice).toFixed(2);
         element.profitLoss = +(element.currentValue - element.investedAmount).toFixed(2);
-        element.profitLossPercentage = ((element.currentValue - element.investedAmount) / element.investedAmount * 100).toFixed(2);
+        element.profitLossPercentage = +((element.currentValue - element.investedAmount) / element.investedAmount * 100).toFixed(2);
       });
     });
   }
