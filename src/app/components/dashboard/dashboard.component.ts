@@ -12,13 +12,9 @@ export class DashboardComponent implements OnInit, OnChanges {
   constructor() { }
 
   ngOnInit(): void {
-    console.log('inside ngOnInit of dashboard component');
-    console.log(`this.holding in onInit of dashboardComponent: `, this.holdings);
   }
 
   ngOnChanges(): void {
-    console.log('inside ngOnChanges of dashboard component');
-    console.log(`this.holding in onChanges of dashboardComponent: `, this.holdings);
   }
 
 }
