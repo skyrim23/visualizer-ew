@@ -35,7 +35,7 @@ export class PortfolioComponent
   implements AfterViewInit, OnInit, OnChanges, OnDestroy
 {
   confirmationDialogRef: MatDialogRef<ConfirmationDialogComponent>;
-  @Input() holdings: any;
+  holdings: any = [];
   displayedColumns: string[] = [
     'symbol',
     'totalQuantity',
@@ -56,13 +56,10 @@ export class PortfolioComponent
     public dialog: MatDialog,
     public router: Router,
     private sharedDataService: SharedDataService
-  ) {
-  }
+  ) {}
 
   ngOnInit() {
-    this.sharedDataService.getValue().subscribe((data) => {
-      if (data.holdings?.length > 0) this.holdings = data.holdings;
-    });
+    this.getPortfolio();
     this.dataSource = new MatTableDataSource(this.holdings);
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
@@ -73,11 +70,15 @@ export class PortfolioComponent
     this.dataSource.sort = this.sort;
   }
 
-  ngOnChanges() {
+  loadTableData() {
+    this.dataSource = new MatTableDataSource(this.holdings);
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
   }
 
-  ngOnDestroy() {
-  }
+  ngOnChanges() {}
+
+  ngOnDestroy() {}
 
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
@@ -105,19 +106,46 @@ export class PortfolioComponent
 
     this.confirmationDialogRef.afterClosed().subscribe((result) => {
       if (result) {
-        this.http.delete('http://localhost:3000/portfolio/myUserId').subscribe(
-          (response) => {
-          },
-          (error) => {
+        this.http.delete('http://localhost:3000/portfolio/myUserId').subscribe({
+          next: (response) => {},
+          error: (error) => {
             helper.handleError(error);
-          }
-        );
+          },
+        });
+        this.router.navigate(['/dashboard']);
       }
-      this.router.navigate(['/dashboard']);
     });
   }
 
-  getPortfolio() {}
+  getPortfolio() {
+    this.http.get<any>('http://localhost:3000/portfolio/myUserId').subscribe({
+      complete: () => {
+      },
+      next: (data) => {
+        this.holdings = data.holdings;
+        this.holdings.forEach((element: any) => {
+          element.investedAmount = +(
+            element.totalQuantity * element.averagePrice
+          ).toFixed(2);
+          element.currentValue = +(
+            element.totalQuantity * element.lastTradedPrice
+          ).toFixed(2);
+          element.profitLoss = +(
+            element.currentValue - element.investedAmount
+          ).toFixed(2);
+          element.profitLossPercentage = +(
+            ((element.currentValue - element.investedAmount) /
+              element.investedAmount) *
+            100
+          ).toFixed(2);
+        });
+        this.loadTableData();
+      },
+      error: (error) => {
+        helper.handleError(error);
+      },
+    });
+  }
 
   openConfirmationDialog(): boolean {
     let confirmResult = false;

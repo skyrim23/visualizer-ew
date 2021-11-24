@@ -1,0 +1,23 @@
+div {
+  height: 7%;
+  background-color: #ffffff;
+  display: flex;
+  align-items: center;
+  padding: 0 20px;
+    /* position: fixed; */
+  /* align-items: center; */
+}
+
+.mat-flat-button {
+  height: 100%;
+  font-size: 18px;
+  border-radius: 10px;
+}
+
+.mat-flat-button:hover {
+  background-color: #ffffff;
+}
+
+.shadow {
+  box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.35);
+}

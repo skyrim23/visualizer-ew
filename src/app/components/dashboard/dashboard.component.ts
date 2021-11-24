@@ -20,37 +20,18 @@ export class DashboardComponent implements OnInit, OnChanges {
     public dialog: MatDialog,
     private router: Router,
     private sharedDataService: SharedDataService
-  ) {
-  }
+  ) {}
 
   ngOnInit(): void {
-    console.log('dashboard.component.ts: ngOnInit()');
-    this.http.get<any>('http://localhost:3000/portfolio/myUserId').subscribe(
-      (data) => {
-      console.log(`DashboardComponent ~ ngOnInit ~ data`, data);
+    this.http.get<any>('http://localhost:3000/portfolio/myUserId').subscribe({
+      next: (data) => {
         this.holdings = data.holdings;
-        this.holdings.forEach((element: any) => {
-          element.investedAmount = +(
-            element.totalQuantity * element.averagePrice
-          ).toFixed(2);
-          element.currentValue = +(
-            element.totalQuantity * element.lastTradedPrice
-          ).toFixed(2);
-          element.profitLoss = +(
-            element.currentValue - element.investedAmount
-          ).toFixed(2);
-          element.profitLossPercentage = +(
-            ((element.currentValue - element.investedAmount) /
-              element.investedAmount) *
-            100
-          ).toFixed(2);
-        });
-        this.sharedDataService.setValue(data);
         this.requestExecuted = true;
       },
-      (error) => {
+      error: (error) => {
         helper.handleError(error);
       }
+    }
     );
   }
 

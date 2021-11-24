@@ -1,4 +1,12 @@
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output, ViewChild } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  OnInit,
+  Output,
+  ViewChild,
+} from '@angular/core';
 // import { ChartComponent } from "ng-apexcharts";
 // import {
 //   ApexNonAxisChartSeries,
@@ -8,7 +16,6 @@ import { Component, EventEmitter, Input, OnChanges, OnInit, Output, ViewChild } 
 //   ApexDataLabels,
 //   ApexLegend
 // } from "ng-apexcharts";
-
 
 export type ChartOptions = {
   // series: ApexNonAxisChartSeries;
@@ -23,11 +30,8 @@ export type ChartOptions = {
 @Component({
   selector: 'app-charts',
   templateUrl: './charts.component.html',
-  styleUrls: ['./charts.component.css']
+  styleUrls: ['./charts.component.css'],
 })
-
-
-
 export class ChartsComponent implements OnInit, OnChanges {
   @Input() holdings: any;
   // @ViewChild("chart") chart: ChartComponent;
@@ -37,26 +41,24 @@ export class ChartsComponent implements OnInit, OnChanges {
   categories: any = {
     marketCapSection: {
       constituents: [],
-      currentValueSeries: []
+      currentValueSeries: [],
     },
     industry: {
       constituents: [],
-      currentValueSeries: []
+      currentValueSeries: [],
     },
     sector: {
       constituents: [],
-      currentValueSeries: []
-    }
+      currentValueSeries: [],
+    },
   };
   marketCapSectionNames: any = [];
   sectorNames: any = [];
   industryNames: any = [];
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
   ngOnChanges() {
-
     const categoryNames = ['marketCapSection', 'sector', 'industry'];
     // Please optimize this shit, commenting out some info for reference
     let loopcounter = 0;
@@ -65,24 +67,37 @@ export class ChartsComponent implements OnInit, OnChanges {
     // If the categoryName has been looped through, it will add the currentValue to this.categories[categoryName].currentValueSeries
     // and add the symbolName in this.categories[categoryName].constituents
 
-    categoryNames.forEach(categoryName => {
+    categoryNames.forEach((categoryName) => {
       for (let i = 0; i < this.holdings.length; i++) {
         loopcounter += 1;
-        if (this.categories[categoryName].hasOwnProperty(this.holdings[i][categoryName])) {
-          this.categories[categoryName][this.holdings[i][categoryName]].currentValue += this.holdings[i].currentValue;
-          this.categories[categoryName][this.holdings[i][categoryName]].companyNames.push(this.holdings[i].symbol);
+        if (
+          this.categories[categoryName].hasOwnProperty(
+            this.holdings[i][categoryName]
+          )
+        ) {
+          this.categories[categoryName][
+            this.holdings[i][categoryName]
+          ].currentValue += this.holdings[i].currentValue;
+          this.categories[categoryName][
+            this.holdings[i][categoryName]
+          ].companyNames.push(this.holdings[i].symbol);
         } else {
           this.categories[categoryName][this.holdings[i][categoryName]] = {
             companyNames: [this.holdings[i].symbol],
-            currentValue: this.holdings[i].currentValue
+            currentValue: this.holdings[i].currentValue,
           };
         }
 
         if (i === this.holdings.length - 1) {
           for (const constituent in this.categories[categoryName]) {
-            if (constituent !== 'constituents' && constituent !== 'currentValueSeries') {
+            if (
+              constituent !== 'constituents' &&
+              constituent !== 'currentValueSeries'
+            ) {
               this.categories[categoryName].constituents.push(constituent);
-              this.categories[categoryName].currentValueSeries.push(this.categories[categoryName][constituent].currentValue);
+              this.categories[categoryName].currentValueSeries.push(
+                this.categories[categoryName][constituent].currentValue
+              );
             }
           }
         }
@@ -93,12 +108,12 @@ export class ChartsComponent implements OnInit, OnChanges {
       chart: {
         width: 400,
         height: 400,
-        type: "donut"
+        type: 'donut',
       },
       dataLabels: {
         enabled: true,
         style: {
-          colors: ["black"]
+          colors: ['black'],
         },
         dropShadow: {
           enabled: false,
@@ -106,11 +121,11 @@ export class ChartsComponent implements OnInit, OnChanges {
           left: 1,
           blur: 1,
           color: '#000',
-          opacity: 0.45
-        }
+          opacity: 0.45,
+        },
       },
       fill: {
-        type: "gradient"
+        type: 'gradient',
       },
       legend: {
         show: false,
@@ -123,19 +138,18 @@ export class ChartsComponent implements OnInit, OnChanges {
           breakpoint: 480,
           options: {
             chart: {
-              width: 200
+              width: 200,
             },
             legend: {
-              position: "bottom"
-            }
-          }
-        }
-      ]
-    }
+              position: 'bottom',
+            },
+          },
+        },
+      ],
+    };
   }
-  pieChart() { }
-  bubbleChart() { }
+  pieChart() {}
+  bubbleChart() {}
 
-  constructor() {
-  }
+  constructor() {}
 }

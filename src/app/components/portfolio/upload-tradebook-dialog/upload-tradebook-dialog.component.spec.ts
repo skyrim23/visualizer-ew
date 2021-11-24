@@ -8,9 +8,8 @@ describe('UploadTradebookDialogComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ UploadTradebookDialogComponent ]
-    })
-    .compileComponents();
+      declarations: [UploadTradebookDialogComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {

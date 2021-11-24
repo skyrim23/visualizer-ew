@@ -3,8 +3,19 @@
 /* /* @import "~bootstrap/dist/css/bootstrap.min.css"; */
 /* @import "~@angular/material/theming";
 @import "~@angular/material/prebuilt-themes/indigo-pink.css"; */
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+html {
+  background-color: #f1f3f8;
+}
 
 .elevated-button {
   all: unset;
@@ -38,4 +49,36 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 .centred {
   width: 90%;
   margin: auto;
+}
+
+.shadow {
+  box-shadow: 0 2.5px 5px rgba(0, 0, 0, 0.35);
+}
+
+.smallShadow {
+  box-shadow: 0 1.5px 3px rgba(0, 0, 0, 0.35);
+}
+
+.whitebg {
+  background-color: #ffffff;
+}
+
+.margin10 {
+  margin: 10px;
+}
+
+.rounded10 {
+  border-radius: 10px;
+}
+
+.rounded25 {
+  border-radius: 25px !important;
+}
+
+.transparentBackground {
+  background-color: transparent;
+}
+
+.width100 {
+  width: 100%;
 }

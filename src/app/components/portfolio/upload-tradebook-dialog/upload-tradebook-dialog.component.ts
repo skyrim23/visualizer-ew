@@ -1,5 +1,10 @@
 import { Component, OnInit, OnDestroy, Inject } from '@angular/core';
-import { FormBuilder, Validators, FormGroup, FormControl } from '@angular/forms';
+import {
+  FormBuilder,
+  Validators,
+  FormGroup,
+  FormControl,
+} from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { catchError } from 'rxjs/operators';
@@ -22,7 +27,7 @@ export class UploadTradebookDialogComponent implements OnInit, OnDestroy {
     private router: Router
   ) {
     this.myForm = this.formBuilder.group({
-      file: new FormControl('',[Validators.required]),
+      file: new FormControl('', [Validators.required]),
     });
   }
   ngOnInit(): void {}
@@ -46,17 +51,19 @@ export class UploadTradebookDialogComponent implements OnInit, OnDestroy {
       this.http
         .post(`http://localhost:3000/tradebook/upload`, formData, httpOptions)
         .pipe(catchError(handleError))
-        .subscribe(
-          (data) => {
+        .subscribe({
+          next: (data) => {
             console.log('success');
           },
-          (error) => console.log(error)
-        );
+          error: (error) => console.log(error),
+        });
     }
     this.dialogRef.close(this.myForm.getRawValue());
-    this.router.navigateByUrl('/dashboard', { skipLocationChange: true }).then(() => {
-      this.router.navigate(['dashboard']);
-  });
+    this.router
+      .navigateByUrl('/dashboard', { skipLocationChange: true })
+      .then(() => {
+        this.router.navigate(['dashboard']);
+      });
   }
 
   fileChange(event: any) {

@@ -1,32 +1,36 @@
-import { BrowserModule } from "@angular/platform-browser";
-import { NgModule } from "@angular/core";
-import { AppComponent } from "./app.component";
+import { BrowserModule } from '@angular/platform-browser';
+import { NgModule } from '@angular/core';
+import { AppComponent } from './app.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
-import { AppRoutingModule } from "./app-routing.module";
+import { AppRoutingModule } from './app-routing.module';
 import { MaterialModule } from './shared/material/material.module';
 // import { NgApexchartsModule } from "ng-apexcharts";
-import { headerComponent } from './components/header/header.component';
-import { Dropdowndirective } from "./shared/dropdown.directive";
+import { Dropdowndirective } from './shared/dropdown.directive';
 import { ChartsComponent } from './components/charts/charts.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 // import { UploadComponent } from './upload/upload.component';
 import { PortfolioComponent } from './components/portfolio/portfolio.component';
-import { UploadTradebookDialogComponent } from "./components/portfolio/upload-tradebook-dialog/upload-tradebook-dialog.component";
+import { UploadTradebookDialogComponent } from './components/portfolio/upload-tradebook-dialog/upload-tradebook-dialog.component';
 // import { ConfirmationDialogComponent } from './components/confirmation-dialog/confirmation-dialog.component';
 //remove later
-import { MatSliderModule} from '@angular/material/slider';
+import { MatSliderModule } from '@angular/material/slider';
 import { MatButtonModule } from '@angular/material/button';
+import { HeaderComponent } from './components/header/header.component';
+import { SymbolComponent } from './components/symbol/symbol.component';
 @NgModule({
-  declarations: [AppComponent,
-    headerComponent,
+  declarations: [
+    AppComponent,
     Dropdowndirective,
     ChartsComponent,
     DashboardComponent,
+    HeaderComponent,
     // UploadComponent,
     PortfolioComponent,
     UploadTradebookDialogComponent,
+    HeaderComponent,
+    SymbolComponent,
     // ConfirmationDialogComponent
   ],
   imports: [
@@ -40,7 +44,8 @@ import { MatButtonModule } from '@angular/material/button';
     HttpClientModule,
     AppRoutingModule,
   ],
-  exports: [AppComponent,
+  exports: [
+    AppComponent,
     // headerComponent,
     // Dropdowndirective,
     // ChartsComponent,
@@ -49,6 +54,6 @@ import { MatButtonModule } from '@angular/material/button';
     // PortfolioComponent,
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

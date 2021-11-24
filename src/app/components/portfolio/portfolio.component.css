@@ -1,10 +1,17 @@
 .main {
-	padding: 30px;
+  padding: 30px;
 }
 
 /* Row above the table */
 .toolsRow {
-	display: flex;
+  display: flex;
+  border-radius: 25px;
+  padding: 10px;
+}
+
+button {
+  margin: 10px 0 10px 10px;
+  margin: auto;
 }
 
 /* Contents inside the mat-table */
@@ -12,12 +19,37 @@ table {
   width: 100%;
 }
 
-/* Full table */
-.matTable {
-  padding-top: 5px;
-}
-
 .mat-form-field {
   font-size: 14px;
   width: 90%;
+}
+
+.mat-raised-button {
+  max-height: 35px;
+}
+.mat-table {
+  background-color: transparent !important;
+}
+table {
+  width: 100%;
+  border-collapse: separate;
+  /* border-radius: 5em; */
+}
+table tr:last-child td /*To remove the last border*/ {
+  border-bottom: 0 solid;
+}
+
+table ng-container {
+  border-collapse: separate;
+  /* border-radius: 25px; */
+}
+th:first-child {
+  border-top-left-radius: 25px;
+}
+th:last-child {
+  border-top-right-radius: 25px;
+}
+th,
+td {
+  background-color: #ffffff !important;
 }

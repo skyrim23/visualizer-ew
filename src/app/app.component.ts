@@ -6,7 +6,7 @@ import { ConfirmationDialogComponent } from './components/confirmation-dialog/co
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  styleUrls: ['./app.component.css'],
 })
 export class AppComponent implements OnInit {
   active = 1;
@@ -21,11 +21,7 @@ export class AppComponent implements OnInit {
     this.loadedFeature = feature;
   }
 
-  constructor(
-    public http: HttpClient,
-    public dialog: MatDialog
-    ) {}
+  constructor(public http: HttpClient, public dialog: MatDialog) {}
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 }
