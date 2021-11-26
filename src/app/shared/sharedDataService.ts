@@ -6,29 +6,24 @@ import { Injectable } from '@angular/core'; // at top
 })
 export class SharedDataService {
   constructor() {}
-  //Using any
-  // public portfolioInfo: any = {};
-  // public subject = new Subject<any>();
-  // private messageSource = new BehaviorSubject(this.portfolioInfo);
-  // currentMessage = this.messageSource.asObservable();
-  // changeMessage(data: any) {
-  //   this.messageSource.next(data);
-  // }
-  // public getPortfolioInfo(): Observable<any> {
-  //   return this.portfolioInfo.asObservable();
-  // }
-  /*
-   * @param {string} message : siblingMsg
-   */
-  // public updatePortfolioInfo(data: any): void {
-  //   this.portfolioInfo.next(data);
-  // }
-  private portfolioInfo: BehaviorSubject<any> = new BehaviorSubject<any>({});
-  public setValue(value: any): void {
-    this.portfolioInfo.next(value);
+
+  private holdings: BehaviorSubject<any> = new BehaviorSubject<any>([]);
+  private totalInvestedAmount: BehaviorSubject<any> = new BehaviorSubject<number>(0);
+  public setValue(valueObject: any): void {
+    if (valueObject.totalInvestedAmount) {
+      this.totalInvestedAmount.next(valueObject.totalInvestedAmount);
+    }
+    else if (valueObject.holdings) {
+      this.holdings.next(valueObject.holdings);
+    }
   }
 
-  public getValue(): Observable<any> {
-    return this.portfolioInfo;
+  public getValue(valueObject: any): Observable<any>|any {
+    if (valueObject.totalInvestedAmount) {
+      return this.totalInvestedAmount;
+    }
+    else if (valueObject.holdings) {
+      return this.holdings.asObservable();
+    }
   }
 }

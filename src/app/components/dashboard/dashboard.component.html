@@ -1,17 +1,18 @@
 <div class="main">
   <div class="centred shadow">
-    <mat-card *ngIf="requestExecuted">
+    <mat-card>
       <mat-card-title>Welcome user</mat-card-title>
       <mat-card-subtitle>Show user info here</mat-card-subtitle>
       <mat-card-content>
-        Show investment stats here
-        <div *ngIf="!holdings.length">
+        <div>Show investment stats here</div>
+        <div>You have invested Rs. {{totalInvestedAmount}}</div>
+      </mat-card-content>
+      <mat-card-actions>
+        <div *ngIf="!totalInvestedAmount">
           <span> You have not imported your portfolio, start here!</span>
           <button mat-button (click)="importTradebook()">Import</button>
         </div>
-      </mat-card-content>
-      <mat-card-actions>
-        <button mat-button *ngIf="holdings.length" routerLink="/portfolio">
+        <button mat-button *ngIf="totalInvestedAmount" routerLink="/portfolio">
           View portfolio
         </button>
       </mat-card-actions>

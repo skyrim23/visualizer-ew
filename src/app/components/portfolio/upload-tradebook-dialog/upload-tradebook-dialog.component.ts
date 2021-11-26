@@ -53,7 +53,6 @@ export class UploadTradebookDialogComponent implements OnInit, OnDestroy {
         .pipe(catchError(handleError))
         .subscribe({
           next: (data) => {
-            console.log('success');
           },
           error: (error) => console.log(error),
         });

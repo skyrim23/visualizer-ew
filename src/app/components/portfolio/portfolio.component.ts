@@ -59,7 +59,15 @@ export class PortfolioComponent
   ) {}
 
   ngOnInit() {
-    this.getPortfolio();
+    this.sharedDataService
+      .getValue({ holdings: 1 })
+      .subscribe((holdings: any) => {
+        this.holdings = holdings;
+        this.loadTableData();
+      });
+    if (this.holdings.length === 0) {
+      this.getPortfolio();
+    }
     this.dataSource = new MatTableDataSource(this.holdings);
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
@@ -118,15 +126,14 @@ export class PortfolioComponent
   }
 
   getPortfolio() {
-    this.http.get<any>('http://localhost:3000/portfolio/myUserId').subscribe({
-      complete: () => {
-      },
+    this.http.get<any>('http://localhost:3000/holdings/myUserId').subscribe({
+      complete: () => {},
       next: (data) => {
-        this.holdings = data.holdings;
+        this.holdings = data;
         this.holdings.forEach((element: any) => {
-          element.investedAmount = +(
-            element.totalQuantity * element.averagePrice
-          ).toFixed(2);
+          // element.investedAmount = +(
+          //   element.totalQuantity * element.averagePrice
+          // ).toFixed(2);
           element.currentValue = +(
             element.totalQuantity * element.lastTradedPrice
           ).toFixed(2);
