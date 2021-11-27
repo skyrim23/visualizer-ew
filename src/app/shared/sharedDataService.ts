@@ -2,7 +2,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { Injectable } from '@angular/core'; // at top
 
 @Injectable({
-  providedIn: 'root', // just before your class
+  providedIn: 'root',
 })
 export class SharedDataService {
   private holdings: BehaviorSubject<any> = new BehaviorSubject<any>([]);
@@ -10,9 +10,9 @@ export class SharedDataService {
     new BehaviorSubject<number>(0);
 
   public setValue(valueObject: any): void {
-    if (valueObject.hasOwnProperty.call('totalInvestedAmount')) {
+    if (valueObject.hasOwnProperty('totalInvestedAmount')) {
       this.totalInvestedAmount.next(valueObject.totalInvestedAmount);
-    } else if (valueObject.hasOwnProperty.call('holdings')) {
+    } else if (valueObject.hasOwnProperty('holdings')) {
       this.holdings.next(valueObject.holdings);
     }
   }

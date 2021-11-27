@@ -68,7 +68,7 @@ export class ChartsComponent implements OnChanges {
       for (let i = 0; i < this.holdings.length; i++) {
         // loopcounter += 1;
         if (
-          this.categories[categoryName].hasOwnProperty.call(
+          this.categories[categoryName].hasOwnProperty(
             this.holdings[i][categoryName]
           )
         ) {

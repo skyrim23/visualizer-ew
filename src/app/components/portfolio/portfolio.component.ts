@@ -78,7 +78,6 @@ export class PortfolioComponent implements AfterViewInit, OnInit {
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
-
     if (this.dataSource.paginator) {
       this.dataSource.paginator.firstPage();
     }
@@ -102,15 +101,15 @@ export class PortfolioComponent implements AfterViewInit, OnInit {
       if (result) {
         this.http.delete('http://localhost:3000/portfolio/myUserId').subscribe({
           next: () => {
-            snackbarSuccess(this._snackBar, 'Portfolio deleted.');
             this.sharedDataService.setValue({ holdings: [] });
             this.sharedDataService.setValue({ totalInvestedAmount: 0 });
+            snackbarSuccess(this._snackBar, 'Portfolio deleted.');
+            this.router.navigate(['/dashboard']);
           },
           error: (error: Error) => {
             snackbarError(this._snackBar, error.message);
           },
         });
-        this.router.navigate(['/dashboard']);
       }
     });
   }
@@ -132,6 +131,7 @@ export class PortfolioComponent implements AfterViewInit, OnInit {
             100
           ).toFixed(2);
         });
+        this.sharedDataService.setValue({ holdings: this.holdings });
         this.loadTableData();
       },
       error: (error) => {
