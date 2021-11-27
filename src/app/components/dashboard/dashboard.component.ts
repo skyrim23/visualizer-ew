@@ -1,17 +1,18 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, Input, OnChanges, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import * as helper from '../../shared/helper';
 import { UploadTradebookDialogComponent } from '../portfolio/upload-tradebook-dialog/upload-tradebook-dialog.component';
 import { Router } from '@angular/router';
 import { SharedDataService } from 'src/app/shared/sharedDataService';
+import { snackbarError } from '../../shared/helper';
+import { MatSnackBar } from '@angular/material/snack-bar';
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css'],
 })
-export class DashboardComponent implements OnInit, OnChanges {
-  totalInvestedAmount: number = 0;
+export class DashboardComponent implements OnInit {
+  totalInvestedAmount = 0;
   holdings: any = [];
 
   requestExecuted = false;
@@ -21,7 +22,8 @@ export class DashboardComponent implements OnInit, OnChanges {
     public http: HttpClient,
     public dialog: MatDialog,
     private router: Router,
-    private sharedDataService: SharedDataService
+    private sharedDataService: SharedDataService,
+    private _snackBar: MatSnackBar
   ) {}
 
   ngOnInit(): void {
@@ -44,9 +46,10 @@ export class DashboardComponent implements OnInit, OnChanges {
               });
               this.getPortfolio();
             }
+            this.requestExecuted = true;
           },
           error: (error) => {
-            helper.handleError(error);
+            snackbarError(this._snackBar, error.message);
           },
         });
     }
@@ -54,8 +57,6 @@ export class DashboardComponent implements OnInit, OnChanges {
 
   getPortfolio() {
     this.http.get<any>('http://localhost:3000/holdings/myUserId').subscribe({
-      complete: () => {
-      },
       next: (data) => {
         this.holdings = data;
         this.holdings.forEach((element: any) => {
@@ -71,22 +72,25 @@ export class DashboardComponent implements OnInit, OnChanges {
             100
           ).toFixed(2);
         });
+        this.requestExecuted = true;
         this.sharedDataService.setValue({
           holdings: this.holdings,
         });
       },
       error: (error) => {
-        helper.handleError(error);
+        snackbarError(this._snackBar, error.message);
       },
     });
   }
 
-  ngOnChanges(): void {}
-  // Create the method.
   importTradebook() {
     const dialogRef = this.dialog.open(UploadTradebookDialogComponent, {
       data: {},
     });
-    this.router.navigate(['/portfolio']);
+    dialogRef.afterClosed().subscribe(() => {
+      setTimeout(() => {
+        this.ngOnInit();
+      }, 3000);
+    });
   }
 }

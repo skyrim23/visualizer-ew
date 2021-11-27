@@ -1,0 +1,27 @@
+.mat-snack-bar-container {
+  margin: 0 !important;
+  padding: 0 !important;
+  width: 80vw !important;
+  max-width: 100vw !important;
+}
+
+snack-bar-container {
+  margin: 0 !important;
+  padding: 0 !important;
+  width: 80vw !important;
+  max-width: 100vw !important;
+}
+
+.snackbarRow {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.closeIcon {
+  margin-left: auto !important;
+}
+
+.closeIcon:hover {
+  cursor: pointer;
+}

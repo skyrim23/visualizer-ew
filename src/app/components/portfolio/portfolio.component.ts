@@ -1,13 +1,4 @@
-import {
-  AfterViewInit,
-  Component,
-  OnInit,
-  ViewChild,
-  Injectable,
-  Input,
-  OnChanges,
-  OnDestroy,
-} from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
@@ -15,9 +6,10 @@ import { HttpClient } from '@angular/common/http';
 import { UploadTradebookDialogComponent } from './upload-tradebook-dialog/upload-tradebook-dialog.component';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ConfirmationDialogComponent } from '../confirmation-dialog/confirmation-dialog.component';
-import * as helper from '../../shared/helper';
+import { snackbarError, snackbarSuccess } from '../../shared/helper';
 import { Router } from '@angular/router';
 import { SharedDataService } from 'src/app/shared/sharedDataService';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 export interface UserData {
   id: string;
@@ -31,9 +23,7 @@ export interface UserData {
   templateUrl: './portfolio.component.html',
   styleUrls: ['./portfolio.component.css'],
 })
-export class PortfolioComponent
-  implements AfterViewInit, OnInit, OnChanges, OnDestroy
-{
+export class PortfolioComponent implements AfterViewInit, OnInit {
   confirmationDialogRef: MatDialogRef<ConfirmationDialogComponent>;
   holdings: any = [];
   displayedColumns: string[] = [
@@ -55,7 +45,8 @@ export class PortfolioComponent
     private http: HttpClient,
     public dialog: MatDialog,
     public router: Router,
-    private sharedDataService: SharedDataService
+    private sharedDataService: SharedDataService,
+    private _snackBar: MatSnackBar
   ) {}
 
   ngOnInit() {
@@ -84,10 +75,6 @@ export class PortfolioComponent
     this.dataSource.sort = this.sort;
   }
 
-  ngOnChanges() {}
-
-  ngOnDestroy() {}
-
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
@@ -99,13 +86,12 @@ export class PortfolioComponent
 
   // Create the method.
   importTradebook() {
-    const dialogRef = this.dialog.open(UploadTradebookDialogComponent, {
+    this.dialog.open(UploadTradebookDialogComponent, {
       data: {},
     });
   }
 
   deletePortfolio() {
-    let confirmResult = this.openConfirmationDialog();
     this.confirmationDialogRef = this.dialog.open(ConfirmationDialogComponent, {
       disableClose: false,
     });
@@ -115,9 +101,13 @@ export class PortfolioComponent
     this.confirmationDialogRef.afterClosed().subscribe((result) => {
       if (result) {
         this.http.delete('http://localhost:3000/portfolio/myUserId').subscribe({
-          next: (response) => {},
-          error: (error) => {
-            helper.handleError(error);
+          next: () => {
+            snackbarSuccess(this._snackBar, 'Portfolio deleted.');
+            this.sharedDataService.setValue({ holdings: [] });
+            this.sharedDataService.setValue({ totalInvestedAmount: 0 });
+          },
+          error: (error: Error) => {
+            snackbarError(this._snackBar, error.message);
           },
         });
         this.router.navigate(['/dashboard']);
@@ -127,13 +117,9 @@ export class PortfolioComponent
 
   getPortfolio() {
     this.http.get<any>('http://localhost:3000/holdings/myUserId').subscribe({
-      complete: () => {},
       next: (data) => {
         this.holdings = data;
         this.holdings.forEach((element: any) => {
-          // element.investedAmount = +(
-          //   element.totalQuantity * element.averagePrice
-          // ).toFixed(2);
           element.currentValue = +(
             element.totalQuantity * element.lastTradedPrice
           ).toFixed(2);
@@ -149,14 +135,8 @@ export class PortfolioComponent
         this.loadTableData();
       },
       error: (error) => {
-        helper.handleError(error);
+        snackbarError(this._snackBar, error.message);
       },
     });
-  }
-
-  openConfirmationDialog(): boolean {
-    let confirmResult = false;
-
-    return confirmResult;
   }
 }

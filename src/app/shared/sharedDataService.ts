@@ -1,28 +1,26 @@
-import { BehaviorSubject, Observable, Subject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { Injectable } from '@angular/core'; // at top
 
 @Injectable({
   providedIn: 'root', // just before your class
 })
 export class SharedDataService {
-  constructor() {}
-
   private holdings: BehaviorSubject<any> = new BehaviorSubject<any>([]);
-  private totalInvestedAmount: BehaviorSubject<any> = new BehaviorSubject<number>(0);
+  private totalInvestedAmount: BehaviorSubject<any> =
+    new BehaviorSubject<number>(0);
+
   public setValue(valueObject: any): void {
-    if (valueObject.totalInvestedAmount) {
+    if (valueObject.hasOwnProperty.call('totalInvestedAmount')) {
       this.totalInvestedAmount.next(valueObject.totalInvestedAmount);
-    }
-    else if (valueObject.holdings) {
+    } else if (valueObject.hasOwnProperty.call('holdings')) {
       this.holdings.next(valueObject.holdings);
     }
   }
 
-  public getValue(valueObject: any): Observable<any>|any {
+  public getValue(valueObject: any): Observable<any> | any {
     if (valueObject.totalInvestedAmount) {
       return this.totalInvestedAmount;
-    }
-    else if (valueObject.holdings) {
+    } else if (valueObject.holdings) {
       return this.holdings.asObservable();
     }
   }

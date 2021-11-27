@@ -1,11 +1,10 @@
 import {
   Component,
-  EventEmitter,
+  // EventEmitter,
   Input,
   OnChanges,
-  OnInit,
-  Output,
-  ViewChild,
+  // Output,
+  // ViewChild,
 } from '@angular/core';
 // import { ChartComponent } from "ng-apexcharts";
 // import {
@@ -32,12 +31,12 @@ export type ChartOptions = {
   templateUrl: './charts.component.html',
   styleUrls: ['./charts.component.css'],
 })
-export class ChartsComponent implements OnInit, OnChanges {
+export class ChartsComponent implements OnChanges {
   @Input() holdings: any;
   // @ViewChild("chart") chart: ChartComponent;
   public chartOptions: Partial<ChartOptions> | any;
-  totalInvested: number = 0;
-  totalCurrentValue: number = 0;
+  totalInvested = 0;
+  totalCurrentValue = 0;
   categories: any = {
     marketCapSection: {
       constituents: [],
@@ -56,12 +55,10 @@ export class ChartsComponent implements OnInit, OnChanges {
   sectorNames: any = [];
   industryNames: any = [];
 
-  ngOnInit() {}
-
   ngOnChanges() {
     const categoryNames = ['marketCapSection', 'sector', 'industry'];
     // Please optimize this shit, commenting out some info for reference
-    let loopcounter = 0;
+    // let loopcounter = 0;
     // Adds companyName and currentValue in this.categories[categoryName] (where categoryName is marketCapSection, sector or industry)
     // Adds the symbolName in this.categories[categoryName].constituents and increments the currentValue
     // If the categoryName has been looped through, it will add the currentValue to this.categories[categoryName].currentValueSeries
@@ -69,9 +66,9 @@ export class ChartsComponent implements OnInit, OnChanges {
 
     categoryNames.forEach((categoryName) => {
       for (let i = 0; i < this.holdings.length; i++) {
-        loopcounter += 1;
+        // loopcounter += 1;
         if (
-          this.categories[categoryName].hasOwnProperty(
+          this.categories[categoryName].hasOwnProperty.call(
             this.holdings[i][categoryName]
           )
         ) {
@@ -148,8 +145,4 @@ export class ChartsComponent implements OnInit, OnChanges {
       ],
     };
   }
-  pieChart() {}
-  bubbleChart() {}
-
-  constructor() {}
 }

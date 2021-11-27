@@ -82,3 +82,45 @@ html {
 .width100 {
   width: 100%;
 }
+
+.padding20{
+  padding: 20px;
+}
+
+snack-bar-container.mat-snack-bar-container {
+  border-radius: 5px !important;
+  min-height: 56px !important;
+  padding: 15px 15px !important;
+  max-width: 700px !important;
+}
+
+.snackbarSuccess {
+  margin: auto 10%;
+  color: #224A23 !important;
+  background-color: #c8e6c9 !important;
+  border-left: 6px solid #439446 !important;
+}
+
+.snackbarError {
+  margin: auto 10%;
+  color: #731814 !important;
+  background-color: #FBCDD2 !important;
+  border-left: 6px solid #E73A33 !important;
+}
+
+.snackbarInfo {
+  margin: auto 10%;
+  color: #054868 !important;
+  background-color: #B3E5FC !important;
+  border-left: 6px solid #0991CF !important;
+}
+
+.icon {
+  padding-right: 5%;
+}
+
+
+.message {
+  padding-right: 5%;
+  font-size: 15px;
+}

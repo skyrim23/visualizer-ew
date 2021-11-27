@@ -1,15 +1,41 @@
-import { HttpErrorResponse } from '@angular/common/http';
-import { Observable, throwError } from 'rxjs';
-import { catchError, retry } from 'rxjs/operators';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { SnackbarComponent } from '../components/snackbar/snackbar.component';
 
-export function handleError(error: HttpErrorResponse) {
-  if (error.status === 0) {
-    console.error('An error occurred:', error.error);
-  } else {
-    console.error(
-      `Backend returned code ${error.status}, body was: `,
-      error.error
-    );
-  }
-  return throwError('Something bad happened; please try again later.');
+export function snackbarError(snackbar: MatSnackBar, message: string) {
+  snackbar.openFromComponent(SnackbarComponent, {
+    duration: 5 * 1000,
+    verticalPosition: 'top',
+    horizontalPosition: 'right',
+    data: {
+      message: message,
+      action: 'error',
+    },
+    panelClass: 'snackbarError',
+  });
+}
+
+export function snackbarSuccess(snackbar: MatSnackBar, message: string) {
+  snackbar.openFromComponent(SnackbarComponent, {
+    duration: 5 * 1000,
+    verticalPosition: 'top',
+    horizontalPosition: 'right',
+    data: {
+      message: message,
+      action: 'success',
+    },
+    panelClass: 'snackbarSuccess',
+  });
+}
+
+export function snackbarInfo(snackbar: MatSnackBar, message: string) {
+  snackbar.openFromComponent(SnackbarComponent, {
+    duration: 5 * 1000,
+    verticalPosition: 'top',
+    horizontalPosition: 'right',
+    data: {
+      message: message,
+      action: 'info',
+    },
+    panelClass: 'snackbarInfo',
+  });
 }

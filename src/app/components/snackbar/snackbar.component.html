@@ -1,0 +1,27 @@
+<div
+  *ngIf="data.action == 'success'"
+  style="padding: 0; margin: 0"
+  class="snackbarRow"
+>
+  <mat-icon class="icon">check</mat-icon>
+  <span class="message"><span style="font-weight: 575;">Success: </span>{{ data.message }}</span>
+  <mat-icon (click)="snackBarRef.dismiss()" class="closeIcon">close</mat-icon>
+</div>
+<div
+  *ngIf="data.action == 'error'"
+  style="padding: 0; margin: 0"
+  class="snackbarRow"
+>
+  <mat-icon class="icon">check</mat-icon>
+  <span class="message"><span style="font-weight: 575;">Error: </span>{{ data.message }}</span>
+  <mat-icon (click)="snackBarRef.dismiss()" class="closeIcon">close</mat-icon>
+</div>
+<div
+  *ngIf="data.action == 'info'"
+  style="padding: 0; margin: 0"
+  class="snackbarRow"
+>
+  <mat-icon class="icon">check</mat-icon>
+  <span class="message"><span style="font-weight: 575;">Info: </span>{{ data.message }}</span>
+  <mat-icon (click)="snackBarRef.dismiss()" class="closeIcon">close</mat-icon>
+</div>

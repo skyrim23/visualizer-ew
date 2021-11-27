@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, Inject } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import {
   FormBuilder,
   Validators,
@@ -7,15 +7,20 @@ import {
 } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { catchError } from 'rxjs/operators';
-import { handleError } from 'src/app/shared/helper';
-import { Router, ActivatedRoute, ParamMap } from '@angular/router';
+import {
+  snackbarError,
+  snackbarInfo,
+  snackbarSuccess,
+} from 'src/app/shared/helper';
+import { Router, ActivatedRoute } from '@angular/router';
+import { MatSnackBar } from '@angular/material/snack-bar';
+
 @Component({
   selector: 'app-upload-tradebook-dialog',
   templateUrl: './upload-tradebook-dialog.component.html',
   styleUrls: ['./upload-tradebook-dialog.component.css'],
 })
-export class UploadTradebookDialogComponent implements OnInit, OnDestroy {
+export class UploadTradebookDialogComponent {
   public myForm: FormGroup;
   fileList: FileList;
   constructor(
@@ -24,23 +29,22 @@ export class UploadTradebookDialogComponent implements OnInit, OnDestroy {
     private dialogRef: MatDialogRef<UploadTradebookDialogComponent>,
     private http: HttpClient,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private _snackBar: MatSnackBar
   ) {
     this.myForm = this.formBuilder.group({
       file: new FormControl('', [Validators.required]),
     });
   }
-  ngOnInit(): void {}
 
-  ngOnDestroy(): void {}
   public uploadTradebook() {
     //Add a snackbar here saying started importing
     if (this.fileList.length > 0) {
-      let file: File = this.fileList[0];
-      let formData: FormData = new FormData();
+      const file: File = this.fileList[0];
+      const formData: FormData = new FormData();
       formData.append('file', file, file.name);
       formData.append('userId', 'myUserId');
-      let myHeaders = new Headers();
+      const myHeaders = new Headers();
       myHeaders.append('Content-Type', 'multipart/form-data');
       myHeaders.append('Accept', 'application/json');
       const httpOptions = {
@@ -48,13 +52,14 @@ export class UploadTradebookDialogComponent implements OnInit, OnDestroy {
           Accept: 'application/json',
         }),
       };
+      snackbarInfo(this._snackBar, 'Importing Tradebook!');
       this.http
         .post(`http://localhost:3000/tradebook/upload`, formData, httpOptions)
-        .pipe(catchError(handleError))
         .subscribe({
-          next: (data) => {
+          next: () => {
+            snackbarSuccess(this._snackBar, 'Tradebook Imported!');
           },
-          error: (error) => console.log(error),
+          error: (error) => snackbarError(this._snackBar, error.message),
         });
     }
     this.dialogRef.close(this.myForm.getRawValue());

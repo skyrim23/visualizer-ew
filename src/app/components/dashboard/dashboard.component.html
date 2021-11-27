@@ -1,21 +1,24 @@
-<div class="main">
-  <div class="centred shadow">
-    <mat-card>
-      <mat-card-title>Welcome user</mat-card-title>
-      <mat-card-subtitle>Show user info here</mat-card-subtitle>
-      <mat-card-content>
-        <div>Show investment stats here</div>
-        <div>You have invested Rs. {{totalInvestedAmount}}</div>
-      </mat-card-content>
-      <mat-card-actions>
+<div class="main centred shadow rounded25">
+  <mat-card class="rounded25">
+    <mat-card-title>Welcome user</mat-card-title>
+    <mat-card-subtitle>Show user info here</mat-card-subtitle>
+    <mat-card-content>
+      <div>Show investment stats here</div>
+      <div>You have invested Rs. {{ totalInvestedAmount }}</div>
+      <div style="padding-top: 15px">
         <div *ngIf="!totalInvestedAmount">
-          <span> You have not imported your portfolio, start here!</span>
-          <button mat-button (click)="importTradebook()">Import</button>
+          <span style="margin-right: 10px;"> You have not imported your portfolio, start here!  </span>
+          <button mat-raised-button color="primary" (click)="importTradebook()">Import</button>
         </div>
-        <button mat-button *ngIf="totalInvestedAmount" routerLink="/portfolio">
+        <button
+          mat-raised-button
+          color="primary"
+          *ngIf="totalInvestedAmount"
+          routerLink="/portfolio"
+        >
           View portfolio
         </button>
-      </mat-card-actions>
-    </mat-card>
-  </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
 </div>
