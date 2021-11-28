@@ -8,9 +8,9 @@ div {
   /* align-items: center; */
 }
 
-.mat-flat-button {
+.mat-flat-button.anchor {
   height: 100%;
-  font-size: 18px;
+  font-size: 100%;
   border-radius: 10px;
 }
 
